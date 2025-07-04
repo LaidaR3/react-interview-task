@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react"; // ✅ FIXED
 
 const CreateJobSiteModal = ({
   isOpen,
@@ -7,13 +7,18 @@ const CreateJobSiteModal = ({
   formData,
   setFormData,
 }) => {
+  const [dropdownOpen, setDropdownOpen] = useState(false); // ✅ FIXED
+
   if (!isOpen) return null;
+
 
   const statuses = ["Completed", "On Hold", "In Progress"];
   const categories = ["Sidewalk Shed", "Scaffold", "Shoring"];
+  
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
+
       <div className="bg-white p-6 rounded-lg shadow-lg w-[400px]">
         <h2 className="text-xl font-semibold mb-2">Title</h2>
         <p className="text-sm text-gray-500 mb-4">
@@ -47,17 +52,44 @@ const CreateJobSiteModal = ({
 
         {/* Status Dropdown */}
         <label className="block text-sm font-medium mb-1">Status</label>
-        <select
-            className="w-full mb-4 px-3 py-2 border rounded"
-            value={formData.status}
-            onChange={(e) =>
-            setFormData({ ...formData, status: e.target.value })
-          }
+        <div className="relative">
+  <button
+    className={`w-full mb-4 px-3 py-2 border rounded text-left ${
+      formData.status === "Completed"
+        ? "bg-green-100"
+        : formData.status === "On Hold"
+        ? "bg-red-100"
+        : "bg-yellow-100"
+    }`}
+    onClick={() => setDropdownOpen(!dropdownOpen)}
+  >
+    {formData.status}
+  </button>
+
+  {dropdownOpen && (
+    <div className="absolute z-10 w-full bg-white border rounded shadow-md">
+      {statuses.map((status) => (
+        <div
+          key={status}
+          onClick={() => {
+            setFormData({ ...formData, status });
+            setDropdownOpen(false);
+          }}
+          className={`px-4 py-2 cursor-pointer hover:text-white ${
+            status === "Completed"
+              ? "hover:bg-green-500"
+              : status === "On Hold"
+              ? "hover:bg-red-500"
+              : "hover:bg-yellow-400"
+          }`}
         >
-          {statuses.map((s) => (
-                <option key={s}>{s}</option>
-          ))}
-        </select>
+          {status}
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
 
         {/* Buttons */}
         <div className="flex justify-end gap-2">

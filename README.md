@@ -35,7 +35,17 @@ b) Update items on each category
 - How to run your app with all the necessary details
 - Relating to the task please add answers to the following questions;
     1. How might you make this app more secure?
+        - Authentication and Authorization, implemting login using JWT inorder to protect pages and user action, as well as restrict access based on roles.
+        - Preventing abuse by limiting request per IP/USER
+        - Using HTTP, encrypting data
+        - Avoiding SQL injection if using databases
+        - Using secure headers, for example CSP, X-Frame-Options ect.
     2. How would you make this solution scale to millions of records?
+        - Instead of rendering all records at once, load a limited number (20 per page).
+        - Use libraries like react-window or react-virtualised to efficiently render large tables.
+        - Deploy your backend across multiple servers or containers (Docker and Kubernetes).
+        - Use an API gateway or load balancer.
+
   
 
 On completion email a link to your repository to your contact at FLEX BUSINESS SOLUTIONS and ensure it is publicly accessible.
